@@ -31,12 +31,15 @@ class _MyAppState extends State<MyApp> {
 
       try {
         unlocked = await deviceUnlock.request(
-          localizedReason: "We need to check your credentials to allow you to see the hidden text",
+          localizedReason:
+              "We need to check your credentials to allow you to see the hidden text",
         );
       } on DeviceUnlockUnavailable {
-        unlocked = true;
+        print("No Device Lock Set");
       } on RequestInProgress {
-        unlocked = true;
+        print("Request in progress");
+      } catch (e) {
+        print("Something went Wrong");
       }
 
       if (unlocked) {

@@ -11,7 +11,7 @@ import io.flutter.plugin.common.PluginRegistry
 import java.util.concurrent.atomic.AtomicBoolean
 
 class DeviceUnlockManager(
-    private val activity: Activity
+        private val activity: Activity
 ) : PluginRegistry.ActivityResultListener {
 
     private val authInProgress = AtomicBoolean(false)
@@ -40,14 +40,15 @@ class DeviceUnlockManager(
         }
 
         keyguardManager = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
-            ?: return Pair(
-                "DeviceUnlockUnavailable",
-                "unlock_devices plugin could not retrieve the KeyguardManager.")
+                ?: return Pair(
+                        "DeviceUnlockUnavailable",
+                        "unlock_devices plugin could not retrieve the KeyguardManager.")
 
-        if (keyguardManager?.isKeyguardSecure != false) {
-            Pair(
-                "DeviceUnlockUnavailable",
-                "The Device does not have patter, face, touch or pin security available.")
+        if (keyguardManager?.isKeyguardSecure == false) {
+            authInProgress.set(false)
+            return Pair(
+                    "DeviceUnlockUnavailable",
+                    "The Device does not have patter, face, touch or pin security available.")
         }
         return null
     }
@@ -82,7 +83,7 @@ class DeviceUnlockManager(
         val intent = keyguardManager?.createConfirmDeviceCredentialIntent(localizedReason, "")
         if (intent == null) {
             result.error("DeviceUnlockUnavailable",
-            "The Device does not have patter, face, touch or pin security available.", null)
+                    "The Device does not have patter, face, touch or pin security available.", null)
         } else {
             activity.startActivityForResult(intent, keyguardRequestCode)
         }
