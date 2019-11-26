@@ -39,4 +39,8 @@ class DeviceUnlock {
       }
     }
   }
+
+  void openSettings() {
+    _channel.invokeMethod("gotoSettings");
+  }
 }
