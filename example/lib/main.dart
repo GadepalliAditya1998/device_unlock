@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         );
       } on DeviceUnlockUnavailable {
         print("No Device Lock Set");
+        deviceUnlock.openSettings();
       } on RequestInProgress {
         print("Request in progress");
       } catch (e) {

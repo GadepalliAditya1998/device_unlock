@@ -17,6 +17,9 @@ public class SwiftDeviceUnlockPlugin: NSObject, FlutterPlugin {
         }
         self.requestWithLocalizedReason(localizedReason, withResult: result)
         break
+      case "gotoSettings":
+        openSettings()
+      break
       default:
         result(FlutterMethodNotImplemented)
     }
@@ -45,6 +48,16 @@ public class SwiftDeviceUnlockPlugin: NSObject, FlutterPlugin {
             flutterResult(success)
         }
     }
+  }
+
+  private func openSettings() {
+      if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+      }
   }
 
 }

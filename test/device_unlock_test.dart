@@ -18,15 +18,18 @@ void main() {
   });
 
   test('request returns true', () async {
-    expect(await deviceUnlock.request(localizedReason: "To check your credentials"), true);
+    expect(
+        await deviceUnlock.request(
+            localizedReason: "To check your credentials"),
+        true);
   });
 
   test('localized reason should be required with request method', () async {
     try {
-        await deviceUnlock.request(localizedReason: null);
-        fail("exception not thrown");
+      await deviceUnlock.request(localizedReason: null);
+      fail("exception not thrown");
     } catch (e) {
-        expect(e, isA<AssertionError>());
+      expect(e, isA<AssertionError>());
     }
   });
 }
